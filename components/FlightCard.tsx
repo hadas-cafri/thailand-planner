@@ -91,7 +91,12 @@ export default function FlightCard({
 
       <FlightBarcode flight={flight} />
 
-      {flight.note && <p className="text-xs text-gray-500">{flight.note}</p>}
+      {flight.note && (
+        <p className={`text-xs ${flight.note.includes("20 קילו") ? "text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2 font-bold" : "text-gray-500"}`}>
+          {flight.note.includes("20 קילו") ? "🔴 " : ""}
+          {flight.note}
+        </p>
+      )}
 
       {flight.passengers.length > 0 && (
         <div className="mt-2 border-t pt-2">

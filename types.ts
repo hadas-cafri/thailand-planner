@@ -19,6 +19,8 @@ export type Passenger = {
   name: string;
   seat: string;
   ticket: string;
+  flyerBonusId?: string;
+  etihadGuest?: string;
 };
 
 export type Flight = {
@@ -69,4 +71,23 @@ export type TripData = {
   activities: any[];
   packing?: any[];
   budget?: any[];
+  loyalty?: LoyaltyEntry[];
+  credentials?: CredentialEntry[];
+};
+
+export type LoyaltyEntry = {
+  id: string;
+  owner: string;
+  program: string;
+  number: string;
+  note?: string;
+};
+
+export type CredentialEntry = {
+  id: string;
+  title: string;
+  username?: string;
+  password?: string;
+  url?: string;
+  note?: string;
 };

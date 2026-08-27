@@ -11,7 +11,7 @@ export type TripData = {
   budget?: any[];
 };
 
-const EMPTY: TripData = { hotels: [], flights: [], activities: [], packing: [], budget: [] };
+const EMPTY: TripData = { hotels: [], flights: [], activities: [], packing: [], budget: [], loyalty: [], credentials: [] };
 
 export async function loadData(): Promise<TripData> {
   try {

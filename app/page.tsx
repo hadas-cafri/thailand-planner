@@ -13,13 +13,14 @@ import PackingList from "../components/PackingList";
 import BudgetTracker from "../components/BudgetTracker";
 import InfoCard from "../components/InfoCard";
 import MapViewTab from "../components/MapViewTab";
+import LoyaltyVault from "../components/LoyaltyVault";
 import NextFlight from "../components/NextFlight";
 import TripStats from "../components/TripStats";
 import TabBar, { TABS } from "../components/TabBar";
 import ConfirmModal from "../components/ConfirmModal";
 import { PreFlightChecklist, WeatherTips, ConflictDetector } from "../components/SmartFeatures";
 import Toast from "../components/Toast";
-import { Hotel, Flight, Activity, TimelineItem, TabKey } from "../types";
+import { Hotel, Flight, Activity, TimelineItem, TabKey, LoyaltyEntry, CredentialEntry } from "../types";
 import { SEED_FLIGHTS, SEED_HOTELS, SEED_ACTIVITIES } from "../seed";
 
 const MapView = dynamic(() => import("../components/MapView"), { ssr: false });
@@ -125,7 +126,9 @@ export default function Home() {
   const [hotels, setHotels, hotelsLoaded] = useSynced<Hotel[]>("thai_hotels", SEED_HOTELS, setSaveStatus);
   const [flights, setFlights, flightsLoaded] = useSynced<Flight[]>("thai_flights", SEED_FLIGHTS, setSaveStatus);
   const [activities, setActivities, activitiesLoaded] = useSynced<Activity[]>("thai_activities", SEED_ACTIVITIES, setSaveStatus);
-  const allLoaded = hotelsLoaded && flightsLoaded && activitiesLoaded;
+  const [loyalty, setLoyalty, loyaltyLoaded] = useSynced<LoyaltyEntry[]>("thai_loyalty", [], setSaveStatus);
+  const [credentials, setCredentials, credLoaded] = useSynced<CredentialEntry[]>("thai_credentials", [], setSaveStatus);
+  const allLoaded = hotelsLoaded && flightsLoaded && activitiesLoaded && loyaltyLoaded && credLoaded;
 
   const cities = useMemo(() => Array.from(new Set(hotels.map((h) => h.city).filter(Boolean))), [hotels]);
 
@@ -485,6 +488,12 @@ export default function Home() {
       {tab === "טיימליין" && (
         <section className="card p-5 tab-fade">
           <Timeline items={timeline} />
+        </section>
+      )}
+      {/* NUMBERS & PASSWORDS */}
+      {tab === "מספרים" && (
+        <section className="tab-fade">
+          <LoyaltyVault loyalty={loyalty} credentials={credentials} onUpdateLoyalty={setLoyalty} onUpdateCredentials={setCredentials} />
         </section>
       )}
       <TabBar active={tab} onChange={(t) => { if (t === "עזרה") router.push("/help"); else setTab(t); }} />
