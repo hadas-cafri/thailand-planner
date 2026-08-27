@@ -273,6 +273,7 @@ export default function Home() {
           <button className="btn bg-white text-thai-teal hover:bg-thai-teal/5 text-sm font-semibold shadow-sm" title="התראות על טיסה קרובה" onClick={() => { if (typeof Notification !== "undefined" && Notification.permission !== "granted") Notification.requestPermission(); }}><Bell size={16} className="inline" /></button>
           <button className="btn bg-white text-thai-teal hover:bg-thai-teal/5 text-sm font-semibold shadow-sm" title={dark ? "מצב רגיל" : "מצב כהה"} onClick={() => setDark((d) => !d)}>{dark ? <Sun size={16} className="inline" /> : <Moon size={16} className="inline" />}</button>
           <button className="btn bg-white text-thai-teal hover:bg-thai-teal/5 text-sm font-semibold shadow-sm" title="ייצא ליומן (Google Calendar)" onClick={exportICS}><Calendar size={16} className="inline ml-1" /> יומן</button>
+          <button className="btn bg-thai-orange text-white hover:bg-thai-orange/90 text-sm font-bold shadow-sm" title="לוח שנה עברי + תכנון" onClick={() => router.push("/calendar")}><CalendarDays size={16} className="inline ml-1" /> לוח שנה</button>
         </div>
         <div className="mt-3 h-5 text-xs text-gray-500 flex items-center justify-center gap-1">
           {saveStatus === "saving" && <><Loader2 size={14} className="inline animate-spin" /> שומר…</>}
@@ -284,6 +285,13 @@ export default function Home() {
 
       <ContentGate ready={allLoaded}>
       <TripStats flights={flights} hotels={hotels} activities={activities} />
+      <div className="card p-4 bg-gradient-to-r from-orange-50 to-blue-50 border border-orange-200 flex flex-col sm:flex-row items-center justify-between gap-3 mb-4 animate-fade-up">
+        <div className="text-center sm:text-right">
+          <h3 className="font-bold text-[#1b2430] flex items-center justify-center sm:justify-start gap-2"><CalendarDays size={18} className="text-thai-orange" /> לוח שנה עברי · תשרי תשפ&quot;ז</h3>
+          <p className="text-sm text-gray-600 mt-1">20.09–17.10 · יום כיפור, סוכות, טיסות וכל התכנון במקום אחד 📅</p>
+        </div>
+        <button onClick={() => router.push("/calendar")} className="btn bg-thai-orange text-white hover:bg-thai-orange/90 font-bold shadow-sm whitespace-nowrap px-6 py-2 rounded-xl">פתחי לוח שנה ←</button>
+      </div>
       <ConflictDetector flights={flights} activities={activities} />
 
       {/* GLOBAL SEARCH */}
