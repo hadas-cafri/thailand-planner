@@ -1,6 +1,6 @@
 // Gist-backed storage. Reads/writes the trip data JSON gist.
 // GIST_ID and GITHUB_TOKEN are provided via env at build/runtime.
-const GIST_ID = process.env.GIST_ID || "5fa965dcdfac9e98f79c0397e13d75ba";
+const GIST_ID = process.env.GIST_ID || "61b2f22961be8e87031020e2b362ab55";
 const GH_TOKEN = process.env.GITHUB_TOKEN || "";
 
 export type TripData = {
