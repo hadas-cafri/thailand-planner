@@ -133,6 +133,7 @@ export default function Home() {
   const cities = useMemo(() => Array.from(new Set(hotels.map((h) => h.city).filter(Boolean))), [hotels]);
 
   const [hf, setHf] = useState({ id: "", name: "", city: "", checkIn: "", checkOut: "", checkInTime: "", checkOutTime: "", notes: "", link: "", mapLink: "" });
+  const [showAddHotel, setShowAddHotel] = useState(false);
   function submitHotel() {
     if (!hf.name || !hf.city) return;
     const isEdit = !!hf.id;
@@ -143,6 +144,7 @@ export default function Home() {
   }
 
   const [ff, setFf] = useState({ id: "", airline: "", flightNo: "", from: "", to: "", fromCode: "", toCode: "", date: "", depart: "", arrive: "", status: "planned", pnr: "", bookingRef: "", link: "", note: "", passengers: [] as any[] });
+  const [showAddFlight, setShowAddFlight] = useState(false);
   const [ffText, setFfText] = useState("");
   const [ffLoading, setFfLoading] = useState(false);
   async function parseFlight() {
@@ -175,6 +177,7 @@ export default function Home() {
   }
 
   const [af, setAf] = useState({ id: "", date: "", time: "", title: "", location: "", detail: "", category: "other" as any, cost: "" });
+  const [showAddActivity, setShowAddActivity] = useState(false);
   const [confirm, setConfirm] = useState<{ type: string; id: string; label: string } | null>(null);
   const [fxRate, setFxRate] = useState<number | null>(null);
   const [dark, setDark] = useState(false);
@@ -363,7 +366,14 @@ export default function Home() {
       {/* FLIGHTS */}
       {tab === "טיסות" && (
         <section className="space-y-4 tab-fade">
-          <div className="card p-4 space-y-2">
+          <div className="flex justify-end">
+            <button onClick={() => setShowAddFlight(!showAddFlight)} className="btn btn-ghost text-sm border bg-white hover:bg-gray-50">
+              {showAddFlight ? "× סגור" : "+ הוספה ידנית"}
+            </button>
+          </div>
+          {showAddFlight && (
+            <>
+              <div className="card p-4 space-y-2">
             <p className="text-sm font-semibold text-thai-deep">הדבק טקסט או פרטים מצילום מסך:</p>
             <textarea
               className={inputCls + " h-20"}
@@ -392,9 +402,11 @@ export default function Home() {
             {ff.id && <button className="btn btn-ghost text-sm md:col-span-1" onClick={resetFlight}>בטל</button>}
             <input className={inputCls + " md:col-span-9"} placeholder="קישור לניהול הזמנה (אופציונלי)" value={ff.link} onChange={(e) => setFf({ ...ff, link: e.target.value })} />
           </div>
+            </>
+          )}
           <div className="grid md:grid-cols-2 gap-4 stagger">
             {flightsF.map((f) => (
-              <FlightCard key={f.id} flight={f} onEdit={(fl) => setFf({ ...fl })} onDelete={(id) => setConfirm({ type: "flights", id, label: `טיסת ${f.flightNo}` })} />
+              <FlightCard key={f.id} flight={f} onEdit={(fl) => { setFf({ ...fl }); setShowAddFlight(true); }} onDelete={(id) => setConfirm({ type: "flights", id, label: `טיסת ${f.flightNo}` })} />
             ))}
             {flights.length === 0 && (
               <p className="text-gray-500 text-center col-span-2 py-10 flex flex-col items-center"><Plane size={28} className="mb-2 text-thai-teal/60" /> אין עדיין טיסות.<br />הוסיפי את הטיסה הראשונה למעלה</p>
@@ -406,7 +418,13 @@ export default function Home() {
       {/* HOTELS */}
       {tab === "מלונות" && (
         <section className="space-y-4 tab-fade">
-          <div className="card p-4 grid grid-cols-1 md:grid-cols-6 gap-2">
+          <div className="flex justify-end">
+            <button onClick={() => setShowAddHotel(!showAddHotel)} className="btn btn-ghost text-sm border bg-white hover:bg-gray-50">
+              {showAddHotel ? "× סגור" : "+ הוספה ידנית"}
+            </button>
+          </div>
+          {showAddHotel && (
+            <div className="card p-4 grid grid-cols-1 md:grid-cols-6 gap-2">
             <input className={inputCls} placeholder="שם המלון" value={hf.name} onChange={(e) => setHf({ ...hf, name: e.target.value })} />
             <input className={inputCls} placeholder="עיר" value={hf.city} onChange={(e) => setHf({ ...hf, city: e.target.value })} />
             <input className={inputCls} type="date" value={hf.checkIn} onChange={(e) => setHf({ ...hf, checkIn: e.target.value })} />
@@ -417,9 +435,10 @@ export default function Home() {
             <input className={inputCls + " md:col-span-3"} placeholder="קישור לאתר/הזמנה" value={hf.link} onChange={(e) => setHf({ ...hf, link: e.target.value })} />
             <input className={inputCls + " md:col-span-6"} placeholder="קישור למפה (Google Maps)" value={hf.mapLink} onChange={(e) => setHf({ ...hf, mapLink: e.target.value })} />
           </div>
+          )}
           <div className="grid md:grid-cols-3 gap-4 stagger">
             {hotelsF.map((h) => (
-              <HotelCard key={h.id} hotel={h} onEdit={(ho) => setHf({ ...ho })} onDelete={(id) => setConfirm({ type: "hotels", id, label: h.name })} onUpload={(id, dataUrl) => setHotels((p) => p.map((x) => (x.id === id ? { ...x, imageData: dataUrl } : x)))} />
+              <HotelCard key={h.id} hotel={h} onEdit={(ho) => { setHf({ ...ho }); setShowAddHotel(true); }} onDelete={(id) => setConfirm({ type: "hotels", id, label: h.name })} onUpload={(id, dataUrl) => setHotels((p) => p.map((x) => (x.id === id ? { ...x, imageData: dataUrl } : x)))} />
             ))}
             {hotels.length === 0 && (
               <p className="text-gray-500 text-center col-span-3 py-10 flex flex-col items-center"><Building2 size={28} className="mb-2 text-thai-teal/60" /> אין עדיין מלונות.<br />הוסיפי מלון ראשון למעלה</p>
@@ -431,7 +450,13 @@ export default function Home() {
       {/* ACTIVITIES */}
       {tab === "פעילויות" && (
         <section className="space-y-4 tab-fade">
-          <div className="card p-4 grid grid-cols-1 md:grid-cols-5 gap-2">
+          <div className="flex justify-end">
+            <button onClick={() => setShowAddActivity(!showAddActivity)} className="btn btn-ghost text-sm border bg-white hover:bg-gray-50">
+              {showAddActivity ? "× סגור" : "+ הוספה ידנית"}
+            </button>
+          </div>
+          {showAddActivity && (
+            <div className="card p-4 grid grid-cols-1 md:grid-cols-5 gap-2">
             <input className={inputCls} type="date" value={af.date} onChange={(e) => setAf({ ...af, date: e.target.value })} />
             <input className={inputCls} type="time" value={af.time} onChange={(e) => setAf({ ...af, time: e.target.value })} />
             <input className={inputCls} placeholder="כותרת" value={af.title} onChange={(e) => setAf({ ...af, title: e.target.value })} />
@@ -448,9 +473,10 @@ export default function Home() {
             {af.id && <button className="btn btn-ghost text-sm" onClick={() => setAf({ id: "", date: "", time: "", title: "", location: "", detail: "", category: "other" as any, cost: "" })}>בטל</button>}
             <input className={inputCls + " md:col-span-5"} placeholder="פירוט" value={af.detail} onChange={(e) => setAf({ ...af, detail: e.target.value })} />
           </div>
+          )}
           <div className="grid md:grid-cols-2 gap-4 stagger">
             {activitiesF.map((a) => (
-              <ActivityCard key={a.id} activity={a} fxRate={fxRate} onEdit={(ac) => setAf({ ...ac })} onDelete={(id) => setConfirm({ type: "activities", id, label: a.title })} />
+              <ActivityCard key={a.id} activity={a} fxRate={fxRate} onEdit={(ac) => { setAf({ ...ac }); setShowAddActivity(true); }} onDelete={(id) => setConfirm({ type: "activities", id, label: a.title })} />
             ))}
             {activities.length === 0 && (
               <p className="text-gray-500 text-center col-span-2 py-10 flex flex-col items-center"><Sparkles size={28} className="mb-2 text-thai-teal/60" /> אין עדיין פעילויות.<br />הוסיפי פעילות ראשונה למעלה</p>
