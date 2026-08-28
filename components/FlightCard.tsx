@@ -106,7 +106,7 @@ export default function FlightCard({
               <div key={i} className="text-xs text-gray-600 flex justify-between">
                 <span>{p.name}</span>
                 <span>
-                  מושב {p.seat} · כרטיס {p.ticket}
+                  {p.seat ? `מושב ${p.seat} · ` : "מושב ייקבע בצ'ק-אין · "}כרטיס {p.ticket}
                 </span>
               </div>
             ))}
