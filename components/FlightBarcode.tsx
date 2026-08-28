@@ -8,9 +8,31 @@ export default function FlightBarcode({ flight }: { flight: any }) {
   const barcodeRef = useRef<SVGSVGElement>(null);
   const qrRef = useRef<HTMLCanvasElement>(null);
   const [barcodeFailed, setBarcodeFailed] = useState(false);
+  const [realBarcode, setRealBarcode] = useState<string | null>(null);
 
   useEffect(() => {
-    if (barcodeRef.current && flight.flightNo) {
+    // Try real barcode image first
+    const map: Record<string, string> = {
+      "PG242": "/barcodes/PG242.png",
+      "PG130": "/barcodes/PG130.png",
+      "EY598": "/barcodes/EY.png",
+      "EY404": "/barcodes/EY.png",
+      "EY405": "/barcodes/EY.png",
+      "EY599": "/barcodes/EY.png",
+      "TG112": "/barcodes/TG112.png",
+    };
+    const real = map[flight.flightNo];
+    if (real) {
+      // Check if image exists by trying to load
+      const img = new Image();
+      img.onload = () => setRealBarcode(real);
+      img.onerror = () => setRealBarcode(null);
+      img.src = real;
+    } else {
+      setRealBarcode(null);
+    }
+
+    if (barcodeRef.current && flight.flightNo && !real) {
       try {
         JsBarcode(barcodeRef.current, flight.flightNo.replace(/\s/g, ""), {
           format: "CODE128",
@@ -40,7 +62,9 @@ export default function FlightBarcode({ flight }: { flight: any }) {
   return (
     <div className="flex items-center gap-3 mt-2 p-2 bg-gray-50 rounded-lg overflow-hidden">
       <div className="flex-1 overflow-x-auto flex items-center justify-center min-h-[50px]">
-        {barcodeFailed ? (
+        {realBarcode ? (
+          <img src={realBarcode} alt={`ברקוד ${flight.flightNo}`} className="max-w-full h-[50px] object-contain" />
+        ) : barcodeFailed ? (
           <span className="font-mono text-sm text-gray-600 tracking-widest">{flight.flightNo}</span>
         ) : (
           <svg ref={barcodeRef} className="max-w-full"></svg>
