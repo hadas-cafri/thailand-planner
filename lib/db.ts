@@ -9,9 +9,12 @@ export type TripData = {
   activities: any[];
   packing?: any[];
   budget?: any[];
+  loyalty?: any[];
+  credentials?: any[];
+  tasks?: any[];
 };
 
-const EMPTY: TripData = { hotels: [], flights: [], activities: [], packing: [], budget: [], loyalty: [], credentials: [] };
+const EMPTY: TripData = { hotels: [], flights: [], activities: [], packing: [], budget: [], loyalty: [], credentials: [], tasks: [] };
 
 export async function loadData(): Promise<TripData> {
   try {

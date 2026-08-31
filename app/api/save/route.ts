@@ -14,6 +14,7 @@ export async function POST(req: NextRequest) {
     budget: body.budget ?? current.budget ?? [],
     loyalty: body.loyalty ?? (current as any).loyalty ?? [],
     credentials: body.credentials ?? (current as any).credentials ?? [],
+    tasks: body.tasks ?? (current as any).tasks ?? [],
   };
   const ok = await saveData(next);
   return NextResponse.json({ ok, saved: next });
