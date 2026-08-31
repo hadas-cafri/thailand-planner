@@ -19,13 +19,22 @@ export default function WeatherWidget({ city }: { city: string }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
 
+  const cityMap: Record<string, string> = {
+    "קוסמוי": "Koh Samui",
+    "צ'אנג מאי": "Chiang Mai",
+    "בנגקוק": "Bangkok",
+    "פאי": "Pai",
+    "קנצ'נבורי": "Kanchanaburi",
+  };
+
   useEffect(() => {
     if (!city) return;
     (async () => {
       setLoading(true);
       setError(false);
       try {
-        const geo = await fetch(`/api/geo?q=${encodeURIComponent(city + " Thailand")}`).then((r) => r.json());
+        const englishCity = cityMap[city] || city;
+        const geo = await fetch(`/api/geo?q=${encodeURIComponent(englishCity + " Thailand")}`).then((r) => r.json());
         if (!geo.lat) {
           setError(true);
           return;
