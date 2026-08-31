@@ -124,15 +124,27 @@ export default function HotelCard({
         {desc && <p className="text-sm text-gray-700 mt-1 leading-relaxed">{desc}</p>}
         {hotel.notes && (
           <p className="text-xs text-gray-500 mt-1 leading-relaxed">
-            {hotel.notes.split(/(\*\*.*?\*\*)/g).map((part, i) =>
-              part.startsWith("**") && part.endsWith("**") ? (
-                <strong key={i} className="font-bold text-red-600 bg-red-50 px-1 rounded">
-                  {part.slice(2, -2)}
-                </strong>
-              ) : (
-                <span key={i}>{part}</span>
-              )
-            )}
+            {hotel.notes.split(/(\*\*.*?\*\*|\+66[\s\d]+|https?:\/\/\S+)/g).map((part, i) => {
+              if (part.startsWith("**") && part.endsWith("**")) {
+                return (
+                  <strong key={i} className="font-bold text-red-600 bg-red-50 px-1 rounded">
+                    {part.slice(2, -2)}
+                  </strong>
+                );
+              }
+              if (part.startsWith("+66")) {
+                const tel = part.replace(/\s/g, "");
+                return (
+                  <a key={i} href={`https://wa.me/${tel.replace("+", "")}`} target="_blank" rel="noreferrer" className="font-bold text-green-600 hover:underline bg-white px-1 rounded border border-green-200">
+                    {part} 📱
+                  </a>
+                );
+              }
+              if (part.startsWith("http")) {
+                return <a key={i} href={part} target="_blank" rel="noreferrer" className="text-blue-600 hover:underline">{part}</a>;
+              }
+              return <span key={i}>{part}</span>;
+            })}
           </p>
         )}
 

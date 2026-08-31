@@ -92,9 +92,25 @@ export default function FlightCard({
       <FlightBarcode flight={flight} />
 
       {flight.note && (
-        <p className={`text-xs ${flight.note.includes("20 קילו") ? "text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2 font-bold" : "text-gray-500"}`}>
-          {flight.note.includes("20 קילו") ? "🔴 " : ""}
-          {flight.note}
+        <p className={`text-xs leading-relaxed ${flight.note.includes("20 קילו") ? "text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2 font-bold" : "text-gray-600 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2"}`}>
+          {flight.note.includes("20 קילו") ? "🔴 " : "🚐 "}
+          {flight.note.split(/(\*\*.*?\*\*|\+66[\s\d]+|https?:\/\/\S+)/g).map((part, i) => {
+            if (part.startsWith("**") && part.endsWith("**")) {
+              return <strong key={i} className="font-bold text-red-600">{part.slice(2, -2)}</strong>;
+            }
+            if (part.startsWith("+66")) {
+              const tel = part.replace(/\s/g, "");
+              return (
+                <a key={i} href={`https://wa.me/${tel.replace("+", "")}`} target="_blank" rel="noreferrer" className="font-bold text-green-600 hover:underline bg-white px-1 rounded">
+                  {part} 📱
+                </a>
+              );
+            }
+            if (part.startsWith("http")) {
+              return <a key={i} href={part} target="_blank" rel="noreferrer" className="text-blue-600 hover:underline">{part}</a>;
+            }
+            return <span key={i}>{part}</span>;
+          })}
         </p>
       )}
 
