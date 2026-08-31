@@ -425,6 +425,19 @@ export default function Home() {
       {/* HOTELS */}
       {tab === "מלונות" && (
         <section className="space-y-4 tab-fade">
+          <div className="card p-4 bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 flex flex-col sm:flex-row items-center justify-between gap-3">
+            <div className="text-sm text-blue-900">
+              <span className="font-bold">כל ההזמנות ב-EL AL Travel</span> · כניסה מהירה לניהול כל המלונות
+            </div>
+            <a
+              href="https://travel.elal.com/bookings?saml_verified=1"
+              target="_blank"
+              rel="noreferrer"
+              className="btn bg-blue-600 text-white hover:bg-blue-700 text-sm font-bold whitespace-nowrap"
+            >
+              פתחי EL AL Travel →
+            </a>
+          </div>
           <div className="flex justify-end">
             <button onClick={() => setShowAddHotel(!showAddHotel)} className="btn btn-ghost text-sm border bg-white hover:bg-gray-50">
               {showAddHotel ? "× סגור" : "+ הוספה ידנית"}
