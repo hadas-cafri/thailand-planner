@@ -20,8 +20,9 @@ import TabBar, { TABS } from "../components/TabBar";
 import ConfirmModal from "../components/ConfirmModal";
 import { PreFlightChecklist, WeatherTips, ConflictDetector } from "../components/SmartFeatures";
 import Toast from "../components/Toast";
-import { Hotel, Flight, Activity, TimelineItem, TabKey, LoyaltyEntry, CredentialEntry } from "../types";
+import { Hotel, Flight, Activity, TimelineItem, TabKey, LoyaltyEntry, CredentialEntry, TaskItem } from "../types";
 import { SEED_FLIGHTS, SEED_HOTELS, SEED_ACTIVITIES } from "../seed";
+import TasksWidget from "../components/TasksWidget";
 
 const MapView = dynamic(() => import("../components/MapView"), { ssr: false });
 
@@ -128,7 +129,12 @@ export default function Home() {
   const [activities, setActivities, activitiesLoaded] = useSynced<Activity[]>("thai_activities", SEED_ACTIVITIES, setSaveStatus);
   const [loyalty, setLoyalty, loyaltyLoaded] = useSynced<LoyaltyEntry[]>("thai_loyalty", [], setSaveStatus);
   const [credentials, setCredentials, credLoaded] = useSynced<CredentialEntry[]>("thai_credentials", [], setSaveStatus);
-  const allLoaded = hotelsLoaded && flightsLoaded && activitiesLoaded && loyaltyLoaded && credLoaded;
+  const [tasks, setTasks, tasksLoaded] = useSynced<TaskItem[]>("thai_tasks", [
+    { id: "t1", title: "להזמין חב\"ד בצ'אנג מאי", done: false },
+    { id: "t2", title: "לבדוק אם ניתן להזמין מיטות נפרדות בקוסמוי (Amari)", done: false },
+    { id: "t3", title: "לפני תאריך הביטול לבדוק עלויות", done: false },
+  ], setSaveStatus);
+  const allLoaded = hotelsLoaded && flightsLoaded && activitiesLoaded && loyaltyLoaded && credLoaded && tasksLoaded;
 
   const cities = useMemo(() => Array.from(new Set(hotels.map((h) => h.city).filter(Boolean))), [hotels]);
 
@@ -290,6 +296,7 @@ export default function Home() {
       <NextFlight flights={flights} />
 
       <ContentGate ready={allLoaded}>
+      <TasksWidget tasks={tasks} setTasks={setTasks} />
       <TripStats flights={flights} hotels={hotels} activities={activities} />
       <div className="card p-4 bg-gradient-to-r from-orange-50 to-blue-50 border border-orange-200 flex flex-col sm:flex-row items-center justify-between gap-3 mb-4 animate-fade-up">
         <div className="text-center sm:text-right">

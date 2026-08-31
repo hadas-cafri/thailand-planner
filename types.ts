@@ -73,6 +73,14 @@ export type TripData = {
   budget?: any[];
   loyalty?: LoyaltyEntry[];
   credentials?: CredentialEntry[];
+  tasks?: TaskItem[];
+};
+
+export type TaskItem = {
+  id: string;
+  title: string;
+  done: boolean;
+  dueDate?: string;
 };
 
 export type LoyaltyEntry = {
