@@ -259,9 +259,12 @@ export default function Home() {
   const timeline: TimelineItem[] = useMemo(() => {
     const items: TimelineItem[] = [];
     flights.forEach((f) => items.push({ id: f.id, date: f.date, time: f.depart, title: `טיסה ${f.flightNo}: ${f.from} → ${f.to}`, type: "flight", detail: `${f.airline}` }));
-    hotels.forEach((h) => items.push({ id: h.id, date: h.checkIn, title: `צ'ק-אין: ${h.name}`, type: "hotel", detail: `${h.city} · עד ${h.checkOut}` }));
+    hotels.forEach((h) => items.push({ id: h.id, date: h.checkIn, time: h.checkInTime || "14:00", title: `צ'ק-אין: ${h.name}`, type: "hotel", detail: `${h.city} · עד ${h.checkOut}` }));
     activities.forEach((a) => items.push({ id: a.id, date: a.date, time: a.time, title: a.title, type: "activity", detail: a.location }));
-    return items;
+    return items.sort((a, b) => {
+      if (a.date !== b.date) return a.date.localeCompare(b.date);
+      return (a.time || "00:00").localeCompare(b.time || "00:00");
+    });
   }, [flights, hotels, activities]);
 
   // Global search filter
