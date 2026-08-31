@@ -122,7 +122,19 @@ export default function HotelCard({
         )}
 
         {desc && <p className="text-sm text-gray-700 mt-1 leading-relaxed">{desc}</p>}
-        {hotel.notes && <p className="text-xs text-gray-500 mt-1">{hotel.notes}</p>}
+        {hotel.notes && (
+          <p className="text-xs text-gray-500 mt-1 leading-relaxed">
+            {hotel.notes.split(/(\*\*.*?\*\*)/g).map((part, i) =>
+              part.startsWith("**") && part.endsWith("**") ? (
+                <strong key={i} className="font-bold text-red-600 bg-red-50 px-1 rounded">
+                  {part.slice(2, -2)}
+                </strong>
+              ) : (
+                <span key={i}>{part}</span>
+              )
+            )}
+          </p>
+        )}
 
         {hotel.docs && hotel.docs.length > 0 && (
           <div className="flex flex-wrap gap-1 mt-1">
