@@ -23,6 +23,7 @@ import Toast from "../components/Toast";
 import { Hotel, Flight, Activity, TimelineItem, TabKey, LoyaltyEntry, CredentialEntry, TaskItem } from "../types";
 import { SEED_FLIGHTS, SEED_HOTELS, SEED_ACTIVITIES } from "../seed";
 import TasksWidget from "../components/TasksWidget";
+import KosherFood from "../components/KosherFood";
 
 const MapView = dynamic(() => import("../components/MapView"), { ssr: false });
 
@@ -543,6 +544,12 @@ export default function Home() {
       {tab === "מספרים" && (
         <section className="tab-fade">
           <LoyaltyVault loyalty={loyalty} credentials={credentials} onUpdateLoyalty={setLoyalty} onUpdateCredentials={setCredentials} />
+        </section>
+      )}
+      {/* KOSHER FOOD */}
+      {tab === "אוכל כשר" && (
+        <section className="tab-fade">
+          <KosherFood />
         </section>
       )}
       <TabBar active={tab} onChange={(t) => { if (t === "עזרה") router.push("/help"); else setTab(t); }} />

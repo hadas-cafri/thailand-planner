@@ -1,8 +1,8 @@
 "use client";
 
-import { Plane, Hotel, Sparkles, Cloud, MessageCircle, Map, Wallet, Backpack, Info, CalendarDays, HelpCircle, Sun, Key } from "lucide-react";
+import { Plane, Hotel, Sparkles, Cloud, MessageCircle, Map, Wallet, Backpack, Info, CalendarDays, HelpCircle, Sun, Key, Utensils } from "lucide-react";
 
-export type TabKey = "היום" | "טיסות" | "מלונות" | "פעילויות" | "מזג אוויר" | "מפה" | "תקציב" | "ציוד" | "מידע" | "טיימליין" | "עזרה" | "מספרים";
+export type TabKey = "היום" | "טיסות" | "מלונות" | "פעילויות" | "מזג אוויר" | "מפה" | "תקציב" | "ציוד" | "מידע" | "טיימליין" | "עזרה" | "מספרים" | "אוכל כשר";
 
 const ICONS: Record<TabKey, any> = {
   היום: Sun,
@@ -17,12 +17,13 @@ const ICONS: Record<TabKey, any> = {
   טיימליין: CalendarDays,
   עזרה: HelpCircle,
   מספרים: Key,
+  "אוכל כשר": Utensils,
 };
 
-export const TABS: TabKey[] = ["היום", "טיסות", "מלונות", "פעילויות", "מזג אוויר", "מפה", "תקציב", "ציוד", "מידע", "טיימליין", "עזרה", "מספרים"];
+export const TABS: TabKey[] = ["היום", "טיסות", "מלונות", "פעילויות", "מזג אוויר", "מפה", "תקציב", "ציוד", "מידע", "טיימליין", "עזרה", "מספרים", "אוכל כשר"];
 
 export default function TabBar({ active, onChange }: { active: TabKey; onChange: (t: TabKey) => void }) {
-  const tabs: TabKey[] = ["היום", "טיסות", "מלונות", "פעילויות", "מזג אוויר", "מפה", "תקציב", "ציוד", "מידע", "טיימליין", "עזרה", "מספרים"];
+  const tabs: TabKey[] = ["היום", "טיסות", "מלונות", "פעילויות", "מזג אוויר", "מפה", "תקציב", "ציוד", "מידע", "טיימליין", "עזרה", "מספרים", "אוכל כשר"];
   return (
     <nav className="fixed bottom-0 inset-x-0 z-40 bg-white/95 backdrop-blur-md border-t border-gray-200 md:hidden">
       <div className="flex gap-1 overflow-x-auto px-2 py-2 no-scrollbar">
