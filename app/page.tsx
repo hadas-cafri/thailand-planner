@@ -498,14 +498,43 @@ export default function Home() {
             <input className={inputCls + " md:col-span-5"} placeholder="פירוט" value={af.detail} onChange={(e) => setAf({ ...af, detail: e.target.value })} />
           </div>
           )}
-          <div className="grid md:grid-cols-2 gap-4 stagger">
-            {activitiesF.map((a) => (
-              <ActivityCard key={a.id} activity={a} fxRate={fxRate} onEdit={(ac) => { setAf({ ...ac }); setShowAddActivity(true); }} onDelete={(id) => setConfirm({ type: "activities", id, label: a.title })} />
-            ))}
-            {activities.length === 0 && (
-              <p className="text-gray-500 text-center col-span-2 py-10 flex flex-col items-center"><Sparkles size={28} className="mb-2 text-thai-teal/60" /> אין עדיין פעילויות.<br />הוסיפי פעילות ראשונה למעלה</p>
-            )}
-          </div>
+          {(() => {
+            const groups: Record<string, typeof activitiesF> = {};
+            activitiesF.forEach((a) => {
+              const key = a.location || "כללי";
+              if (!groups[key]) groups[key] = [];
+              groups[key].push(a);
+            });
+            const order = ["צ'אנג מאי", "פאי", "קוסמוי", "בנגקוק", "קנצ'נבורי", "כללי"];
+            const sortedKeys = Object.keys(groups).sort((a, b) => {
+              const ia = order.indexOf(a), ib = order.indexOf(b);
+              if (ia === -1 && ib === -1) return a.localeCompare(b);
+              if (ia === -1) return 1;
+              if (ib === -1) return -1;
+              return ia - ib;
+            });
+            const emoji: Record<string,string> = {"צ'אנג מאי":"🏯","פאי":"🏞️","קוסמוי":"🏝️","בנגקוק":"🏙️","קנצ'נבורי":"🌉","כללי":"📍"};
+            return (
+              <div className="space-y-6">
+                {sortedKeys.map((loc) => (
+                  <div key={loc} className="card overflow-hidden">
+                    <div className="bg-gradient-to-r from-thai-teal to-thai-teal/80 text-white px-4 py-3 flex items-center justify-between">
+                      <h3 className="font-bold flex items-center gap-2"><span>{emoji[loc]||"📍"}</span> {loc} <span className="text-xs bg-white/20 rounded-full px-2 py-0.5">{groups[loc].length}</span></h3>
+                      <Sparkles size={16} className="opacity-60" />
+                    </div>
+                    <div className="p-3 grid md:grid-cols-2 gap-3">
+                      {groups[loc].map((a) => (
+                        <ActivityCard key={a.id} activity={a} fxRate={fxRate} onEdit={(ac) => { setAf({ ...ac }); setShowAddActivity(true); }} onDelete={(id) => setConfirm({ type: "activities", id, label: a.title })} />
+                      ))}
+                    </div>
+                  </div>
+                ))}
+                {activities.length === 0 && (
+                  <p className="text-gray-500 text-center py-10 flex flex-col items-center"><Sparkles size={28} className="mb-2 text-thai-teal/60" /> אין עדיין פעילויות.<br />הוסיפי פעילות ראשונה למעלה</p>
+                )}
+              </div>
+            );
+          })()}
         </section>
       )}
 
