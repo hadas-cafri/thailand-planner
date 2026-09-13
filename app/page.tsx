@@ -260,8 +260,17 @@ export default function Home() {
   const timeline: TimelineItem[] = useMemo(() => {
     const items: TimelineItem[] = [];
     flights.forEach((f) => items.push({ id: f.id, date: f.date, time: f.depart, title: `טיסה ${f.flightNo}: ${f.from} → ${f.to}`, type: "flight", detail: `${f.airline}` }));
-    hotels.forEach((h) => items.push({ id: h.id, date: h.checkIn, time: h.checkInTime || "14:00", title: `צ'ק-אין: ${h.name}`, type: "hotel", detail: `${h.city} · עד ${h.checkOut}` }));
-    activities.forEach((a) => items.push({ id: a.id, date: a.date, time: a.time, title: a.title, type: "activity", detail: a.location }));
+    hotels.forEach((h) => {
+      // For Chiang Mai 24.09 arrival day, push hotel after TG112 arrival 16:15
+      let t = h.checkInTime || "15:00";
+      if (h.checkIn === "2026-09-24" && h.city.includes("צ'אנג מאי")) t = h.checkInTime || "17:30";
+      items.push({ id: h.id, date: h.checkIn, time: t, title: `צ'ק-אין: ${h.name}`, type: "hotel", detail: `${h.city} · עד ${h.checkOut}` });
+    });
+    activities.forEach((a) => {
+      // Don't show wishlist placeholders in timeline - only confirmed activities
+      if (a.detail && a.detail.includes("⭐ מרשימת המשאלות")) return;
+      items.push({ id: a.id, date: a.date, time: a.time, title: a.title, type: "activity", detail: a.location });
+    });
     return items.sort((a, b) => {
       if (a.date !== b.date) return a.date.localeCompare(b.date);
       return (a.time || "00:00").localeCompare(b.time || "00:00");
