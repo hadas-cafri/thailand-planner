@@ -8,22 +8,27 @@ export default function TripStats({ flights, hotels, activities }: { flights: an
   const days = dates.length > 1 ? Math.ceil((new Date(dates[dates.length - 1]).getTime() - new Date(dates[0]).getTime()) / 86400000) + 1 : 1;
 
   const stats = [
-    { icon: CalendarDays, label: "ימים", value: days, color: "text-thai-orange" },
-    { icon: Plane, label: "טיסות", value: flights.length, color: "text-blue-600" },
-    { icon: Bed, label: "מלונות", value: hotels.length, color: "text-thai-teal" },
-    { icon: Sparkles, label: "פעילויות", value: activities.length, color: "text-purple-600" },
-    { icon: MapPin, label: "ערים", value: cities.size, color: "text-red-600" },
+    { icon: CalendarDays, label: "ימים", value: days, accent: "bg-orange-50 text-[#F97316] border-orange-200" },
+    { icon: Plane, label: "טיסות", value: flights.length, accent: "bg-sky-50 text-sky-600 border-sky-200" },
+    { icon: Bed, label: "מלונות", value: hotels.length, accent: "bg-teal-50 text-[#0d9488] border-teal-200" },
+    { icon: Sparkles, label: "פעילויות", value: activities.length, accent: "bg-violet-50 text-violet-600 border-violet-200" },
+    { icon: MapPin, label: "ערים", value: cities.size, accent: "bg-rose-50 text-rose-600 border-rose-200" },
   ];
 
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 mb-4">
+    <div className="grid grid-cols-5 gap-2 sm:gap-3 mb-5">
       {stats.map((s, i) => {
         const Icon = s.icon;
         return (
-          <div key={i} className="card p-3 text-center flex flex-col items-center">
-            <Icon size={20} className={s.color} />
-            <div className={`text-2xl font-extrabold ${s.color}`}>{s.value}</div>
-            <div className="text-xs text-gray-500">{s.label}</div>
+          <div
+            key={i}
+            className="card p-2.5 sm:p-3.5 text-center flex flex-col items-center gap-1.5 sm:gap-2 !shadow-sm hover:!translate-y-0 hover:!shadow-md"
+          >
+            <span className={`w-8 h-8 sm:w-9 sm:h-9 rounded-xl border flex items-center justify-center ${s.accent}`}>
+              <Icon size={16} strokeWidth={2} />
+            </span>
+            <div className="text-[18px] sm:text-[22px] font-extrabold leading-none tracking-tight text-slate-900 tabular-nums">{s.value}</div>
+            <div className="text-[11px] font-semibold tracking-wide text-slate-500 uppercase">{s.label}</div>
           </div>
         );
       })}

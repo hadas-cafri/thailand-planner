@@ -37,6 +37,50 @@ body {
   min-height: 100vh;
 }
 
+/* ——— Craft floor: browser surfaces ——— */
+::selection {
+  background: rgba(13, 148, 136, 0.18);
+  color: #0f172a;
+}
+::placeholder {
+  color: #94a3b8;
+  opacity: 1;
+}
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 #f1f5f9;
+}
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+*::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+*::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 999px;
+  border: 2px solid #f1f5f9;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+:where(a) {
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+:where(input, textarea) {
+  caret-color: #0d9488;
+}
+:focus-visible {
+  outline: 2px solid #0d9488;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
 @layer components {
   .card {
     @apply bg-white rounded-2xl shadow-sm border border-slate-200/70 transition-all duration-200;
@@ -65,6 +109,20 @@ body {
     radial-gradient(1200px 600px at 100% 0%, rgba(13, 148, 136, 0.12), transparent 60%),
     radial-gradient(1000px 500px at 0% 100%, rgba(249, 115, 22, 0.10), transparent 55%);
   color: #e2e8f0;
+}
+.dark ::selection {
+  background: rgba(20, 184, 166, 0.3);
+  color: #f1f5f9;
+}
+.dark * {
+  scrollbar-color: #334155 #0f172a;
+}
+.dark *::-webkit-scrollbar-track {
+  background: #0f172a;
+}
+.dark *::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-color: #0f172a;
 }
 .dark .card {
   @apply bg-slate-800/80 border-slate-700 text-slate-100 backdrop-blur-sm;
@@ -103,22 +161,22 @@ select:focus {
   border-color: transparent;
 }
 
-/* Entrance animation */
+/* Entrance animation — exponential ease-out from visible default */
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
 }
 .animate-fade-up {
-  animation: fadeUp 0.35s ease-out both;
+  animation: fadeUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-/* Staggered list entrance — cards fade in one after another */
+/* Staggered list entrance */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(8px); }
   to { opacity: 1; transform: translateY(0); }
 }
 .stagger > * {
-  animation: fadeIn 0.4s ease-out both;
+  animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 .stagger > *:nth-child(1) { animation-delay: 0.04s; }
 .stagger > *:nth-child(2) { animation-delay: 0.08s; }
@@ -131,7 +189,7 @@ select:focus {
 
 /* Smooth tab content transition */
 .tab-fade {
-  animation: fadeIn 0.25s ease-out both;
+  animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 /* FAB attention pulse */
@@ -146,14 +204,12 @@ select:focus {
   from { opacity: 0; transform: translate(-50%, -12px); }
   to { opacity: 1; transform: translate(-50%, 0); }
 }
-.animate-toast { animation: toastIn 0.3s ease-out both; }
+.animate-toast { animation: toastIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) both; }
 
 /* Tab bar active indicator slide */
 .tab-indicator {
   transition: all 0.2s ease;
 }
-
-/* Button press feedback already via active:scale-95 */
 
 /* Header — calm, professional, with a subtle teal accent */
 .app-header {
@@ -170,7 +226,7 @@ select:focus {
 }
 .app-header h1 {
   color: #0f172a;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
 }
 .dark .app-header h1 {
   color: #f8fafc;
@@ -180,11 +236,6 @@ select:focus {
 }
 .dark .app-header p {
   color: #94a3b8;
-}
-
-/* Accent underline for the title */
-.app-header h1 span.flag {
-  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
 }
 
 /* Scroll hint — gentle bounce to indicate more content below */
@@ -199,4 +250,11 @@ select:focus {
 @media print {
   .no-print { display: none !important; }
   body { background: white; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }

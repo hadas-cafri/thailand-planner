@@ -284,25 +284,25 @@ export default function Home() {
   const hotelsF = q ? hotels.filter((h) => matches(`${h.name} ${h.city} ${h.notes}`)) : hotels;
   const activitiesF = q ? activities.filter((a) => matches(`${a.title} ${a.location} ${a.detail}`)) : activities;
 
-  const inputCls = "border border-gray-300 rounded-lg p-2 text-sm w-full";
+  const inputCls = "input";
 
   return (
-    <main className="max-w-5xl mx-auto px-4 py-6 pb-24 md:pb-8">
+    <main className="max-w-5xl mx-auto px-4 sm:px-6 py-6 pb-28 md:pb-8">
       <header className="app-header text-center mb-6 no-print">
-        <h1 className="text-4xl font-extrabold flex items-center justify-center gap-2"><span className="text-thai-orange">🇹🇭</span> תאילנד 2026</h1>
-        <p className="mt-1">מערכת תכנון הטיול — הכל במקום אחד</p>
-        <div className="flex flex-wrap gap-2 justify-center mt-4 md:flex-nowrap">
-          <button className="btn bg-white text-thai-teal hover:bg-thai-teal/5 text-sm font-semibold shadow-sm" title="ייצא ל-PDF" onClick={() => router.push("/print")}><Printer size={16} className="inline ml-1" /> ייצא PDF</button>
-          <button className="btn bg-white text-thai-teal hover:bg-thai-teal/5 text-sm font-semibold shadow-sm" title="מדריך שימוש" onClick={() => router.push("/help")}><HelpCircle size={16} className="inline ml-1" /> איך להוסיף?</button>
-          <button className="btn bg-white text-thai-teal hover:bg-thai-teal/5 text-sm font-semibold shadow-sm" title="שתף קישור לטיול" onClick={() => router.push("/share")}><Share2 size={16} className="inline ml-1" /> שתף</button>
-          <button className="btn bg-white text-thai-teal hover:bg-thai-teal/5 text-sm font-semibold shadow-sm" title="התראות על טיסה קרובה" onClick={() => { if (typeof Notification !== "undefined" && Notification.permission !== "granted") Notification.requestPermission(); }}><Bell size={16} className="inline" /></button>
-          <button className="btn bg-white text-thai-teal hover:bg-thai-teal/5 text-sm font-semibold shadow-sm" title={dark ? "מצב רגיל" : "מצב כהה"} onClick={() => setDark((d) => !d)}>{dark ? <Sun size={16} className="inline" /> : <Moon size={16} className="inline" />}</button>
-          <button className="btn bg-white text-thai-teal hover:bg-thai-teal/5 text-sm font-semibold shadow-sm" title="ייצא ליומן (Google Calendar)" onClick={exportICS}><Calendar size={16} className="inline ml-1" /> יומן</button>
-          <button className="btn bg-thai-orange text-white hover:bg-thai-orange/90 text-sm font-bold shadow-sm" title="לוח שנה עברי + תכנון" onClick={() => router.push("/calendar")}><CalendarDays size={16} className="inline ml-1" /> לוח שנה</button>
+        <h1 className="text-[32px] sm:text-[36px] font-extrabold tracking-[-0.03em] leading-none flex items-center justify-center gap-2.5"><span className="text-[28px]">🇹🇭</span> תאילנד 2026</h1>
+        <p className="mt-2 text-[13px] font-medium tracking-wide text-slate-500">מערכת תכנון הטיול — הכל במקום אחד</p>
+        <div className="flex flex-wrap gap-2 justify-center mt-5 max-w-[640px] mx-auto">
+          <button className="btn bg-white text-slate-700 hover:bg-slate-50 text-[13px] font-semibold shadow-sm border border-slate-200" onClick={() => router.push("/print")}><Printer size={14} className="inline ml-1 opacity-70" /> PDF</button>
+          <button className="btn bg-white text-slate-700 hover:bg-slate-50 text-[13px] font-semibold shadow-sm border border-slate-200" onClick={() => router.push("/help")}><HelpCircle size={14} className="inline ml-1 opacity-70" /> עזרה</button>
+          <button className="btn bg-white text-slate-700 hover:bg-slate-50 text-[13px] font-semibold shadow-sm border border-slate-200" onClick={() => router.push("/share")}><Share2 size={14} className="inline ml-1 opacity-70" /> שתף</button>
+          <button className="btn bg-white text-slate-600 hover:bg-slate-50 text-[13px] shadow-sm border border-slate-200 px-3" title="התראות" onClick={() => { if (typeof Notification !== "undefined" && Notification.permission !== "granted") Notification.requestPermission(); }}><Bell size={14} className="inline" /></button>
+          <button className="btn bg-white text-slate-600 hover:bg-slate-50 text-[13px] shadow-sm border border-slate-200 px-3" title={dark ? "מצב רגיל" : "מצב כהה"} onClick={() => setDark((d) => !d)}>{dark ? <Sun size={14} className="inline" /> : <Moon size={14} className="inline" />}</button>
+          <button className="btn bg-white text-slate-700 hover:bg-slate-50 text-[13px] font-semibold shadow-sm border border-slate-200" onClick={exportICS}><Calendar size={14} className="inline ml-1 opacity-70" /> יומן</button>
+          <button className="btn bg-[#F97316] text-white hover:bg-[#ea6d15] text-[13px] font-bold shadow-[0_2px_8px_rgba(249,115,22,0.35)]" onClick={() => router.push("/calendar")}><CalendarDays size={14} className="inline ml-1" /> לוח שנה</button>
         </div>
-        <div className="mt-3 h-5 text-xs text-gray-500 flex items-center justify-center gap-1">
-          {saveStatus === "saving" && <><Loader2 size={14} className="inline animate-spin" /> שומר…</>}
-          {saveStatus === "saved" && <><Check size={14} className="inline" /> נשמר בענן</>}
+        <div className="mt-3 h-4 text-xs font-medium text-slate-400 flex items-center justify-center gap-1.5 tabular-nums">
+          {saveStatus === "saving" && <><Loader2 size={12} className="inline animate-spin text-slate-400" /> שומר…</>}
+          {saveStatus === "saved" && <><Check size={12} className="inline text-emerald-500" /> נשמר בענן</>}
         </div>
       </header>
 
@@ -311,73 +311,75 @@ export default function Home() {
       <ContentGate ready={allLoaded}>
       <TasksWidget tasks={tasks} setTasks={setTasks} />
       <TripStats flights={flights} hotels={hotels} activities={activities} />
-      <div className="card p-4 bg-gradient-to-r from-orange-50 to-blue-50 border border-orange-200 flex flex-col sm:flex-row items-center justify-between gap-3 mb-4 animate-fade-up">
+      <div className="card p-4 sm:p-5 flex flex-col sm:flex-row items-center justify-between gap-3.5 mb-5 bg-gradient-to-br from-orange-50 via-white to-teal-50/60 border-orange-200/70 shadow-sm animate-fade-up">
         <div className="text-center sm:text-right">
-          <h3 className="font-bold text-[#1b2430] flex items-center justify-center sm:justify-start gap-2"><CalendarDays size={18} className="text-thai-orange" /> לוח שנה עברי · תשרי תשפ&quot;ז</h3>
-          <p className="text-sm text-gray-600 mt-1">20.09–17.10 · יום כיפור, סוכות, טיסות וכל התכנון במקום אחד 📅</p>
+          <h3 className="font-extrabold text-[15px] text-slate-900 flex items-center justify-center sm:justify-start gap-2 tracking-tight"><span className="w-8 h-8 rounded-xl bg-[#F97316] text-white flex items-center justify-center shadow-sm"><CalendarDays size={15} /></span> לוח שנה עברי · תשרי תשפ&quot;ז</h3>
+          <p className="text-[13px] text-slate-500 mt-1.5 font-medium">20.09–17.10 · יום כיפור, סוכות, טיסות וכל התכנון במקום אחד</p>
         </div>
-        <button onClick={() => router.push("/calendar")} className="btn bg-thai-orange text-white hover:bg-thai-orange/90 font-bold shadow-sm whitespace-nowrap px-6 py-2 rounded-xl">פתחי לוח שנה ←</button>
+        <button onClick={() => router.push("/calendar")} className="btn bg-[#F97316] text-white hover:bg-[#ea6d15] font-bold shadow-[0_2px_8px_rgba(249,115,22,0.30)] whitespace-nowrap px-6 py-2.5 text-sm rounded-xl shrink-0">פתחי לוח שנה ←</button>
       </div>
       <ConflictDetector flights={flights} activities={activities} />
 
       {/* GLOBAL SEARCH */}
-      <div className="relative mb-4">
+      <div className="relative mb-5">
         <input
-          className="input w-full pl-9 pr-9"
+          className="input w-full pl-9 pr-9 shadow-sm text-[14px] placeholder:text-slate-400"
           placeholder="חפש טיסה, מלון או פעילות…"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
-        <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+        <Search size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
         {search && (
-          <button className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600" onClick={() => setSearch("")} aria-label="נקה חיפוש">
-            <X size={16} />
+          <button className="absolute right-3 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 flex items-center justify-center transition" onClick={() => setSearch("")} aria-label="נקה חיפוש">
+            <X size={14} />
           </button>
         )}
       </div>
 
-      {/* TABS — desktop */}
-      <div className="hidden md:flex flex-wrap gap-1 mb-6 justify-center">
-        {TABS.map((t) => (
-          <button
-            key={t}
-            onClick={() => setTab(t)}
-            className={`px-3 py-1.5 rounded-full text-sm font-medium transition ${
-              tab === t ? "bg-thai-orange text-white" : "bg-white text-thai-deep hover:bg-orange-50"
-            }`}
-          >
-            {t}
-          </button>
-        ))}
-      </div>
+      {/* TabBar handles both mobile + desktop now */}
+      <TabBar active={tab} onChange={(t) => { if (t === "עזרה") router.push("/help"); else setTab(t); }} />
 
       {/* TODAY */}
       {tab === "היום" && (() => {
         const today = new Date().toISOString().slice(0, 10);
         const todays = [
-          ...flights.filter((f) => f.date === today).map((f) => ({ type: "flight" as const, icon: <Plane size={18} className="text-thai-teal" />, time: f.depart, title: `${f.airline} ${f.flightNo}: ${f.from} → ${f.to}`, sub: f.status === "booked" ? "הוזמנה" : "מתוכננת" })),
-          ...hotels.filter((h) => h.checkIn === today || h.checkOut === today).map((h) => ({ type: "hotel" as const, icon: <Building2 size={18} className="text-thai-teal" />, time: h.checkIn === today ? "צ'ק-אין" : "צ'ק-אאוט", title: h.name, sub: h.city })),
-          ...activities.filter((a) => a.date === today).map((a) => ({ type: "activity" as const, icon: a.category === "food" ? <Utensils size={18} className="text-thai-teal" /> : a.category === "sight" ? <Camera size={18} className="text-thai-teal" /> : a.category === "shop" ? <ShoppingBag size={18} className="text-thai-teal" /> : a.category === "nature" ? <Trees size={18} className="text-thai-teal" /> : <Sparkles size={18} className="text-thai-teal" />, time: a.time || "", title: a.title, sub: a.location || "" })),
+          ...flights.filter((f) => f.date === today).map((f) => ({ type: "flight" as const, icon: <Plane size={18} className="text-[#F97316]" />, time: f.depart, title: `${f.airline} ${f.flightNo}: ${f.from} → ${f.to}`, sub: f.status === "booked" ? "הוזמנה" : "מתוכננת" })),
+          ...hotels.filter((h) => h.checkIn === today || h.checkOut === today).map((h) => ({ type: "hotel" as const, icon: <Building2 size={18} className="text-[#0d9488]" />, time: h.checkIn === today ? "צ'ק-אין" : "צ'ק-אאוט", title: h.name, sub: h.city })),
+          ...activities.filter((a) => a.date === today).map((a) => ({ type: "activity" as const, icon: a.category === "food" ? <Utensils size={18} className="text-[#d97706]" /> : a.category === "sight" ? <Camera size={18} className="text-violet-600" /> : a.category === "shop" ? <ShoppingBag size={18} className="text-violet-600" /> : a.category === "nature" ? <Trees size={18} className="text-emerald-600" /> : <Sparkles size={18} className="text-amber-600" />, time: a.time || "", title: a.title, sub: a.location || "" })),
         ].sort((a, b) => (a.time || "").localeCompare(b.time || ""));
         return (
           <section className="space-y-4 tab-fade">
-            <div className="text-center text-gray-500 text-sm">היום, {new Date().toLocaleDateString("he-IL", { weekday: "long", day: "numeric", month: "long" })}</div>
+            <div className="text-center">
+              <div className="inline-flex items-center gap-2 bg-white border border-slate-200 rounded-full px-3.5 py-1.5 shadow-sm">
+                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" aria-hidden />
+                <span className="text-[13px] font-semibold text-slate-700">היום · {new Date().toLocaleDateString("he-IL", { weekday: "long", day: "numeric", month: "long" })}</span>
+              </div>
+            </div>
             {todays.length === 0 ? (
-              <div className="card p-8 text-center text-gray-500"><Palmtree size={28} className="mx-auto mb-2 text-thai-teal/70" />אין אירועים מתוכננים להיום<br />תהני מהחופשה!</div>
+              <div className="card p-10 text-center">
+                <div className="w-12 h-12 rounded-2xl bg-teal-50 border border-teal-100 flex items-center justify-center mx-auto mb-3">
+                  <Palmtree size={22} className="text-[#0d9488]" />
+                </div>
+                <p className="font-bold text-slate-800">אין אירועים מתוכננים להיום</p>
+                <p className="text-sm text-slate-500 mt-1">תהני מהחופשה!</p>
+              </div>
             ) : (
               todays.map((t, i) => (
-                <div key={i} className="card p-4 flex items-center gap-3 animate-fade-up">
-                  <div className="w-16 text-center text-thai-teal font-semibold text-sm">{t.time || "—"}</div>
-                  <div className="shrink-0 w-9 h-9 rounded-full bg-thai-teal/10 flex items-center justify-center">{t.icon}</div>
-                  <div className="flex-1">
-                    <div className="font-medium">{t.title}</div>
-                    {t.sub && <div className="text-xs text-gray-500">{t.sub}</div>}
+                <div key={i} className="card p-4 flex items-center gap-3.5 animate-fade-up border-l-[3px] border-l-slate-200 hover:border-l-[#0d9488] transition-colors">
+                  <div className="w-[68px] text-center shrink-0">
+                    <div className="text-[13px] font-bold tabular-nums tracking-tight text-slate-900">{t.time || "—"}</div>
+                    <div className="text-[11px] font-medium text-slate-400">שעה</div>
+                  </div>
+                  <div className="shrink-0 w-10 h-10 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-center">{t.icon}</div>
+                  <div className="flex-1 min-w-0">
+                    <div className="font-bold text-[14px] leading-tight text-slate-900 truncate">{t.title}</div>
+                    {t.sub && <div className="text-xs font-medium text-slate-500 mt-0.5">{t.sub}</div>}
                   </div>
                 </div>
               ))
             )}
-            <div className="text-center">
-              <button className="btn btn-ghost text-sm" onClick={() => setTab("טיימליין")}><CalendarDays size={16} className="inline ml-1" /> צפי בכל הטיול</button>
+            <div className="text-center pt-1">
+              <button className="btn btn-ghost text-sm font-semibold" onClick={() => setTab("טיימליין")}><CalendarDays size={14} className="inline ml-1.5" /> צפי בכל הטיול</button>
             </div>
           </section>
         );
@@ -480,33 +482,59 @@ export default function Home() {
         </section>
       )}
 
-      {/* ACTIVITIES */}
+      {/* ACTIVITIES — polished */}
       {tab === "פעילויות" && (
-        <section className="space-y-4 tab-fade">
-          <div className="flex justify-end">
-            <button onClick={() => setShowAddActivity(!showAddActivity)} className="btn btn-ghost text-sm border bg-white hover:bg-gray-50">
-              {showAddActivity ? "× סגור" : "+ הוספה ידנית"}
-            </button>
+        <section className="space-y-5 tab-fade" dir="rtl">
+          {/* header */}
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
+            <div>
+              <h2 className="text-[22px] font-extrabold tracking-tight text-slate-900 flex items-center gap-2">
+                <span className="w-8 h-8 rounded-xl bg-slate-900 text-white grid place-items-center"><Sparkles size={16} /></span>
+                פעילויות
+                <span className="text-sm font-semibold text-slate-500 bg-slate-100 border border-slate-200 px-2.5 py-0.5 rounded-full">{activitiesF.length}</span>
+              </h2>
+              <p className="text-sm text-slate-500 mt-1">מסודר לפי יעד · חיפוש גלובלי מסנן גם כאן</p>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="hidden sm:inline text-xs text-slate-400">{activities.length} סה&quot;כ · {Object.keys(activitiesF.reduce((a:any,c)=>{a[c.location||"כללי"]=1;return a},{})).length} יעדים</span>
+              <button
+                onClick={() => setShowAddActivity(!showAddActivity)}
+                className={`btn text-sm font-semibold ${showAddActivity ? "btn-ghost" : "bg-slate-900 text-white hover:bg-black shadow-sm"}`}
+              >
+                {showAddActivity ? "× סגור" : "+ הוספת פעילות"}
+              </button>
+            </div>
           </div>
+
           {showAddActivity && (
-            <div className="card p-4 grid grid-cols-1 md:grid-cols-5 gap-2">
-            <input className={inputCls} type="date" value={af.date} onChange={(e) => setAf({ ...af, date: e.target.value })} />
-            <input className={inputCls} type="time" value={af.time} onChange={(e) => setAf({ ...af, time: e.target.value })} />
-            <input className={inputCls} placeholder="כותרת" value={af.title} onChange={(e) => setAf({ ...af, title: e.target.value })} />
-            <input className={inputCls} placeholder="מיקום" value={af.location} onChange={(e) => setAf({ ...af, location: e.target.value })} />
-            <select className={inputCls} value={af.category} onChange={(e) => setAf({ ...af, category: e.target.value as any })}>
-              <option value="food">אוכל</option>
-              <option value="sight">אתר</option>
-              <option value="shop">קניות</option>
-              <option value="nature">טבע</option>
-              <option value="other">כללי</option>
-            </select>
-            <input className={inputCls} type="number" placeholder="עלות (฿)" value={af.cost} onChange={(e) => setAf({ ...af, cost: e.target.value })} />
-            <button className="btn btn-primary" onClick={submitActivity}>{af.id ? "עדכן" : "הוסף"}</button>
-            {af.id && <button className="btn btn-ghost text-sm" onClick={() => setAf({ id: "", date: "", time: "", title: "", location: "", detail: "", category: "other" as any, cost: "" })}>בטל</button>}
-            <input className={inputCls + " md:col-span-5"} placeholder="פירוט" value={af.detail} onChange={(e) => setAf({ ...af, detail: e.target.value })} />
-          </div>
+            <div className="card p-4 sm:p-5 animate-fade-up">
+              <div className="flex items-center justify-between mb-3">
+                <p className="text-sm font-semibold text-slate-900">{af.id ? "עריכת פעילות" : "פעילות חדשה"}</p>
+                <span className="text-xs text-slate-400">שדות חובה: תאריך + כותרת</span>
+              </div>
+              <div className="grid grid-cols-2 md:grid-cols-6 gap-2.5">
+                <input className={inputCls} type="date" value={af.date} onChange={(e) => setAf({ ...af, date: e.target.value })} />
+                <input className={inputCls} type="time" value={af.time} onChange={(e) => setAf({ ...af, time: e.target.value })} />
+                <input className={inputCls + " col-span-2 md:col-span-2"} placeholder="כותרת — לדוג׳ שייט לילה" value={af.title} onChange={(e) => setAf({ ...af, title: e.target.value })} />
+                <input className={inputCls + " col-span-2 md:col-span-2"} placeholder="מיקום — לדוג׳ צ׳אנג מאי" value={af.location} onChange={(e) => setAf({ ...af, location: e.target.value })} list="city-suggestions" />
+                <datalist id="city-suggestions"><option value="צ'אנג מאי" /><option value="פאי" /><option value="קוסמוי" /><option value="בנגקוק" /><option value="קנצ'נבורי" /></datalist>
+                <select className={inputCls} value={af.category} onChange={(e) => setAf({ ...af, category: e.target.value as any })}>
+                  <option value="other">כללי</option>
+                  <option value="sight">אתר</option>
+                  <option value="food">אוכל</option>
+                  <option value="nature">טבע</option>
+                  <option value="shop">קניות</option>
+                </select>
+                <input className={inputCls} type="number" placeholder="עלות ฿" value={af.cost} onChange={(e) => setAf({ ...af, cost: e.target.value })} />
+                <input className={inputCls + " col-span-2 md:col-span-6"} placeholder="פירוט קצר — נקודת מפגש, הערות, לינק יתווסף אוטומטית למפה" value={af.detail} onChange={(e) => setAf({ ...af, detail: e.target.value })} />
+              </div>
+              <div className="flex gap-2 mt-3 justify-end">
+                {af.id && <button className="btn btn-ghost text-sm" onClick={() => setAf({ id: "", date: "", time: "", title: "", location: "", detail: "", category: "other" as any, cost: "" })}>בטל</button>}
+                <button className="btn bg-slate-900 text-white hover:bg-black text-sm font-semibold px-6" onClick={submitActivity}>{af.id ? "שמור שינויים" : "הוספה"}</button>
+              </div>
+            </div>
           )}
+
           {(() => {
             const groups: Record<string, typeof activitiesF> = {};
             activitiesF.forEach((a) => {
@@ -514,6 +542,8 @@ export default function Home() {
               if (!groups[key]) groups[key] = [];
               groups[key].push(a);
             });
+            // sort within each group by date/time
+            Object.values(groups).forEach((arr) => arr.sort((a,b) => (a.date + (a.time||"")).localeCompare(b.date + (b.time||""))));
             const order = ["צ'אנג מאי", "פאי", "קוסמוי", "בנגקוק", "קנצ'נבורי", "כללי"];
             const sortedKeys = Object.keys(groups).sort((a, b) => {
               const ia = order.indexOf(a), ib = order.indexOf(b);
@@ -522,25 +552,35 @@ export default function Home() {
               if (ib === -1) return -1;
               return ia - ib;
             });
+            const accent: Record<string,string> = {"צ'אנג מאי":"bg-orange-500","פאי":"bg-emerald-500","קוסמוי":"bg-sky-500","בנגקוק":"bg-violet-500","קנצ'נבורי":"bg-amber-500","כללי":"bg-slate-400"};
             const emoji: Record<string,string> = {"צ'אנג מאי":"🏯","פאי":"🏞️","קוסמוי":"🏝️","בנגקוק":"🏙️","קנצ'נבורי":"🌉","כללי":"📍"};
+            if (activitiesF.length === 0) {
+              return (
+                <div className="card p-10 text-center">
+                  <div className="w-12 h-12 rounded-2xl bg-slate-100 border border-slate-200 grid place-items-center mx-auto mb-3"><Sparkles size={20} className="text-slate-400" /></div>
+                  <p className="font-semibold text-slate-900">{search ? "אין תוצאות לחיפוש" : "עוד אין פעילויות"}</p>
+                  <p className="text-sm text-slate-500 mt-1">{search ? "נסי מילת חיפוש אחרת" : "הוסיפי פעילות ראשונה — היא תתמיין אוטומטית לפי יעד ותאריך"}</p>
+                </div>
+              );
+            }
             return (
-              <div className="space-y-6">
+              <div className="space-y-5 stagger">
                 {sortedKeys.map((loc) => (
-                  <div key={loc} className="card overflow-hidden">
-                    <div className="bg-gradient-to-r from-thai-teal to-thai-teal/80 text-white px-4 py-3 flex items-center justify-between">
-                      <h3 className="font-bold flex items-center gap-2"><span>{emoji[loc]||"📍"}</span> {loc} <span className="text-xs bg-white/20 rounded-full px-2 py-0.5">{groups[loc].length}</span></h3>
-                      <Sparkles size={16} className="opacity-60" />
+                  <div key={loc} className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
+                    <div className="flex items-center gap-3 px-4 py-3 bg-slate-50/70 border-b border-slate-200">
+                      <span className={`w-1.5 h-6 rounded-full ${accent[loc]||"bg-slate-400"}`} aria-hidden />
+                      <span className="text-base">{emoji[loc]||"📍"}</span>
+                      <h3 className="font-bold text-[14px] tracking-tight text-slate-900">{loc}</h3>
+                      <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-white border border-slate-200 text-slate-600">{groups[loc].length}</span>
+                      <span className="mr-auto hidden sm:inline text-xs text-slate-400">{groups[loc][0]?.date ? `${groups[loc][0].date} → ${groups[loc][groups[loc].length-1].date}` : ""}</span>
                     </div>
-                    <div className="p-3 grid md:grid-cols-2 gap-3">
+                    <div className="p-3 sm:p-3.5 grid md:grid-cols-2 gap-3 bg-slate-50/30">
                       {groups[loc].map((a) => (
-                        <ActivityCard key={a.id} activity={a} fxRate={fxRate} onEdit={(ac) => { setAf({ ...ac }); setShowAddActivity(true); }} onDelete={(id) => setConfirm({ type: "activities", id, label: a.title })} />
+                        <ActivityCard key={a.id} activity={a} fxRate={fxRate} onEdit={(ac) => { setAf({ ...ac }); setShowAddActivity(true); window.scrollTo({ top: 0, behavior: "smooth" }); }} onDelete={(id) => setConfirm({ type: "activities", id, label: a.title })} />
                       ))}
                     </div>
                   </div>
                 ))}
-                {activities.length === 0 && (
-                  <p className="text-gray-500 text-center py-10 flex flex-col items-center"><Sparkles size={28} className="mb-2 text-thai-teal/60" /> אין עדיין פעילויות.<br />הוסיפי פעילות ראשונה למעלה</p>
-                )}
               </div>
             );
           })()}
@@ -574,7 +614,7 @@ export default function Home() {
 
       {/* TIMELINE */}
       {tab === "טיימליין" && (
-        <section className="card p-5 tab-fade">
+        <section className="card p-4 sm:p-6 tab-fade">
           <Timeline items={timeline} />
         </section>
       )}
@@ -590,7 +630,6 @@ export default function Home() {
           <KosherFood />
         </section>
       )}
-      <TabBar active={tab} onChange={(t) => { if (t === "עזרה") router.push("/help"); else setTab(t); }} />
       </ContentGate>
 
       {showScrollHint && (
