@@ -24,6 +24,7 @@ import { Hotel, Flight, Activity, TimelineItem, TabKey, LoyaltyEntry, Credential
 import { SEED_FLIGHTS, SEED_HOTELS, SEED_ACTIVITIES } from "../seed";
 import TasksWidget from "../components/TasksWidget";
 import KosherFood from "../components/KosherFood";
+import Passports from "../components/Passports";
 
 const MapView = dynamic(() => import("../components/MapView"), { ssr: false });
 
@@ -130,12 +131,13 @@ export default function Home() {
   const [activities, setActivities, activitiesLoaded] = useSynced<Activity[]>("thai_activities", SEED_ACTIVITIES, setSaveStatus);
   const [loyalty, setLoyalty, loyaltyLoaded] = useSynced<LoyaltyEntry[]>("thai_loyalty", [], setSaveStatus);
   const [credentials, setCredentials, credLoaded] = useSynced<CredentialEntry[]>("thai_credentials", [], setSaveStatus);
+  const [passports, setPassports, passportsLoaded] = useSynced<any[]>("thai_passports", [], setSaveStatus);
   const [tasks, setTasks, tasksLoaded] = useSynced<TaskItem[]>("thai_tasks", [
     { id: "t1", title: "להזמין חב\"ד בצ'אנג מאי", done: false },
     { id: "t2", title: "לבדוק אם ניתן להזמין מיטות נפרדות בקוסמוי (Amari)", done: false },
     { id: "t3", title: "לפני תאריך הביטול לבדוק עלויות", done: false },
   ], setSaveStatus);
-  const allLoaded = hotelsLoaded && flightsLoaded && activitiesLoaded && loyaltyLoaded && credLoaded && tasksLoaded;
+  const allLoaded = hotelsLoaded && flightsLoaded && activitiesLoaded && loyaltyLoaded && credLoaded && passportsLoaded && tasksLoaded;
 
   const cities = useMemo(() => Array.from(new Set(hotels.map((h) => h.city).filter(Boolean))), [hotels]);
 
@@ -628,6 +630,12 @@ export default function Home() {
       {tab === "אוכל כשר" && (
         <section className="tab-fade">
           <KosherFood />
+        </section>
+      )}
+      {/* PASSPORTS */}
+      {tab === "דרכונים" && (
+        <section className="tab-fade">
+          <Passports data={passports} />
         </section>
       )}
       </ContentGate>

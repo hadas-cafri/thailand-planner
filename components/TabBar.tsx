@@ -15,6 +15,7 @@ import {
   Sun,
   Key,
   Utensils,
+  BookOpen,
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
@@ -31,7 +32,8 @@ export type TabKey =
   | "טיימליין"
   | "עזרה"
   | "מספרים"
-  | "אוכל כשר";
+  | "אוכל כשר"
+  | "דרכונים";
 
 const ICONS: Record<TabKey, any> = {
   היום: Sun,
@@ -47,6 +49,7 @@ const ICONS: Record<TabKey, any> = {
   עזרה: HelpCircle,
   מספרים: Key,
   "אוכל כשר": Utensils,
+  דרכונים: BookOpen,
 };
 
 export const TABS: TabKey[] = [
@@ -63,6 +66,7 @@ export const TABS: TabKey[] = [
   "עזרה",
   "מספרים",
   "אוכל כשר",
+  "דרכונים",
 ];
 
 // short labels for tighter mobile — keep original Hebrew so it stays recognizable
