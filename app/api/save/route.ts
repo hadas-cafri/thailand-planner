@@ -15,6 +15,7 @@ export async function POST(req: NextRequest) {
     loyalty: body.loyalty ?? (current as any).loyalty ?? [],
     credentials: body.credentials ?? (current as any).credentials ?? [],
     tasks: body.tasks ?? (current as any).tasks ?? [],
+    passports: body.passports ?? (current as any).passports ?? [],
   };
   const ok = await saveData(next);
   return NextResponse.json({ ok, saved: next });
