@@ -8,11 +8,25 @@ export default function PackingList() {
   const [txt, setTxt] = useState("");
 
   useEffect(() => {
-    const s = localStorage.getItem("thai_packing");
-    if (s) setItems(JSON.parse(s));
+    // Load from server first, fallback to localStorage
+    fetch("/api/load").then(r=>r.json()).then(d=>{
+      if(d && Array.isArray(d.packing) && d.packing.length>0){
+        setItems(d.packing);
+        localStorage.setItem("thai_packing", JSON.stringify(d.packing));
+      } else {
+        const s = localStorage.getItem("thai_packing");
+        if (s) setItems(JSON.parse(s));
+      }
+    }).catch(()=>{
+      const s = localStorage.getItem("thai_packing");
+      if (s) try{ setItems(JSON.parse(s)); } catch {}
+    });
   }, []);
   useEffect(() => {
     localStorage.setItem("thai_packing", JSON.stringify(items));
+    if(items.length>0){
+      fetch("/api/save", {method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({packing: items})}).catch(()=>{});
+    }
   }, [items]);
 
   function add() {
@@ -27,6 +41,7 @@ export default function PackingList() {
   return (
     <div className="card p-4">
       <h3 className="font-bold text-thai-deep mb-3 flex items-center gap-2"><Backpack size={18} className="text-thai-teal" /> רשימת ציוד</h3>
+      <p className="text-xs text-gray-500 mb-3">לפי מזג האוויר: 90% קצר + שכבה דקה לערב בצפון + ציוד גשם 🌧️</p>
       <div className="flex gap-2 mb-3">
         <input
           className="border border-gray-300 rounded-lg p-2 text-sm flex-1"
