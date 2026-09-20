@@ -161,7 +161,7 @@ export default function BudgetTracker() {
       </div>
 
       {/* Summary */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center">
+      <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 text-center">
         <div className="bg-slate-900 rounded-xl p-3 border border-slate-700">
           <div className="text-xs text-slate-400">סה״כ</div>
           <div className="font-bold text-white">{total.toLocaleString("he-IL")} ₪</div>
@@ -173,6 +173,12 @@ export default function BudgetTracker() {
             <div className="font-bold">{(sum as number).toLocaleString("he-IL")} ₪</div>
           </div>
         ))}
+        {!byWho["גיא"] && (
+          <div className={`rounded-xl p-3 border ${whoColor("גיא")} opacity-50`}>
+            <div className="text-xs opacity-70">גיא</div>
+            <div className="font-bold">0 ₪</div>
+          </div>
+        )}
       </div>
 
       {/* Filters */}
