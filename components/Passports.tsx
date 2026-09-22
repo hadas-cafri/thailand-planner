@@ -27,6 +27,13 @@ export default function Passports({ data }: { data: Passport[] }) {
   }
   return (
     <>
+      <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-4 mb-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2" dir="rtl">
+        <div>
+          <div className="font-bold text-emerald-900">✅ אישור TDAC - כניסה לתאילנד (5 נוסעים)</div>
+          <div className="text-xs text-emerald-700">תאריך הגעה 24.09.2026 · טיסה EY404 · הוגש 22.09.2026 · תקף לכניסה אחת</div>
+        </div>
+        <a href="/passports/TDAC_20260924_all5.pdf" target="_blank" className="text-xs bg-emerald-700 text-white px-4 py-2 rounded-full hover:bg-emerald-800 whitespace-nowrap">פתח PDF / הדפס</a>
+      </div>
       <div className="grid md:grid-cols-2 gap-4">
         {data.map((p) => (
           <div key={p.id} className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-md transition">
